@@ -5,6 +5,7 @@ from scrapy.loader import ItemLoader
 from ..items import HotelSpiderItem
 from ..items import HotelReviewItem
 import time
+import random
 
 class HotelsSpider(scrapy.Spider):
     name = 'hotels'
@@ -13,7 +14,7 @@ class HotelsSpider(scrapy.Spider):
 
     def parse_reviews(self,response):
 
-        time.sleep(5)
+        time.sleep(random.randrange(1,3))
         review_tabs = response.xpath('//div[@class="location-review-review-list-parts-SingleReview__mainCol--1hApa"]')
 
         for review_tab in review_tabs:
@@ -38,7 +39,7 @@ class HotelsSpider(scrapy.Spider):
 
     
     def parse_hotel(self,response):
-        time.sleep(5)
+        time.sleep(random.randrange(1,3))
         hotel_loader = ItemLoader(item = HotelSpiderItem(), response = response)
         
         header = response.xpath('//div[@id="taplc_hotel_review_atf_hotel_info_web_component_0"]')
@@ -92,6 +93,7 @@ class HotelsSpider(scrapy.Spider):
         yield Request(absolute_next_url, callback=self.parse_reviews, meta = data)
     
     def parse(self, response):
+        time.sleep(random.randrange(1,3))
         main_div = response.xpath('//div[@id="taplc_hsx_hotel_list_lite_dusty_hotels_combined_sponsored_0"]')
         div_list = main_div.xpath('//div[@class="meta_listing ui_columns large_thumbnail_mobile "]')
         
